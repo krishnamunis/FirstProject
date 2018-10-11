@@ -1,8 +1,10 @@
 package com.demo.sample;
 
+import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlRootElement;
 
-
-
+@Produces("application/json")
+//@XmlRootElement
 public class Customer { 
     private String id; 
     private String name; 
@@ -56,4 +58,5 @@ public class Customer {
     public String toString() {
     	return "Customer[id:"+id+",name:"+name+",Address:"+address+",PH:"+phoneNumber+"]";
     }
+	
 }

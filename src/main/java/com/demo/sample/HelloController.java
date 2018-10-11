@@ -8,10 +8,13 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,47 +23,45 @@ import org.springframework.web.bind.annotation.RestController;
 @Path("/hello")
 @RequestMapping("/hello")
 public class HelloController {
-	//private List<Customer> customerList = new ArrayList<>();
-	/*@GET
-	@Path("/list")
-	@GetMapping(value="/list")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Customer findById() {
-		Customer newCustomer = new Customer();
-		newCustomer.setId("1");
-		newCustomer.setName("Tim");
-		newCustomer.setPhoneNumber("45668727718");
-		newCustomer.setAddress("Tester");
-		return newCustomer;
-	}*/
     private CustomerDataService customerDataService = CustomerDataService.getInstance();
 
-    @GET
+
     @Path("/list1")
+    @GET
 	@GetMapping(value="/list1")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Customer> getCustomers() {
         return customerDataService.getCustomerList();
-        }
+    }
     
     @POST
     @Path("/create")
     @PostMapping("/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Customer createCustomer(Customer customer) {
         return customerDataService.addCustomer(customer);
     }
-@GET
-@Path("/test")
-@GetMapping(value="/test")
-	public String test() {
-		return "test";
+    
+	@GET
+	@Path("/test")
+	@GetMapping(value="/test")
+		public String test() {
+			return "test";
 	}
-@GET
-@Path(value="/world")
-@GetMapping(value="/world")
-  public String sayHello() {
-	return "Hello World ";
-}
+	
+	@GET
+	@Path(value="/world/{id}")
+	@GetMapping(value="/world/{id}")
+	  public String sayHello(@PathVariable("id") String id) {
+		return "Hello World "+id;
+	}
+	
+	
+	@DELETE
+	@Path(value="/delete")
+	@DeleteMapping("/delete")
+	public boolean delete() {
+	    return CustomerDataService.delete();
+	}
 }
